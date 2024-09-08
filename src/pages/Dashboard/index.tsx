@@ -14,7 +14,8 @@ function Dashboard() {
       initBills(seedData);
       setIsLoading(false);
     }, 700);
-  }, [initBills, setIsLoading]);
+  }, []);
+
   return (
     <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>
       {isLoading ? (
