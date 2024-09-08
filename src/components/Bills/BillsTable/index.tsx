@@ -33,7 +33,8 @@ function BillsTable({ bills }: { bills: BillType[] }) {
     setOpenBillForm(false);
   };
 
-  const handleClickOpenDeleteBill = () => {
+  const handleClickOpenDeleteBill = (bill: BillType) => {
+    setCurrentBill(bill);
     setOpenDeleteBill(true);
   };
 
@@ -91,7 +92,13 @@ function BillsTable({ bills }: { bills: BillType[] }) {
         Add new
       </Button>
       <BillForm open={openBillForm} handleClose={handleCloseBillForm} />
-      <DeleteBill open={openDeleteBill} handleClose={handleCloseDeleteBill} />
+      {currentBill && (
+        <DeleteBill
+          open={openDeleteBill}
+          handleClose={handleCloseDeleteBill}
+          bill={currentBill}
+        />
+      )}
       {currentBill && (
         <MarkAsPaid
           open={openMarkAsPaid}
