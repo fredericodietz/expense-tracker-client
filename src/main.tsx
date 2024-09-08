@@ -9,12 +9,15 @@ import { ThemeProvider } from '@emotion/react';
 import theme from './theme.tsx';
 import App from './App.tsx';
 import './index.css';
+import { BillsProvider } from './context/BillsContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App />
+      <BillsProvider>
+        <App />
+      </BillsProvider>
     </ThemeProvider>
   </StrictMode>
 );
