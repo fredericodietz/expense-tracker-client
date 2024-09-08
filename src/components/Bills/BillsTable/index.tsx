@@ -12,11 +12,11 @@ import {
   Typography
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import BillModal from '../BillModal';
-import DeleteBill from '../BillModal/DeleteBill';
-import MarkAsPaid from '../BillModal/MarkAsPaid';
-import { BillType } from '../../types';
-import BillTableCell from './BillTableCell';
+import BillForm from '../../Modals/Bill/BillForm';
+import DeleteBill from '../../Modals/Bill/DeleteBill';
+import MarkAsPaid from '../../Modals/Bill/MarkAsPaid';
+import { BillType } from '../../../types';
+import BillTableCell from '../BillTableCell';
 
 function BillsTable({ bills }: { bills: BillType[] }) {
   const [openBillForm, setOpenBillForm] = useState(false);
@@ -85,7 +85,7 @@ function BillsTable({ bills }: { bills: BillType[] }) {
         onClick={handleClickOpenBillForm}>
         Add new
       </Button>
-      <BillModal open={openBillForm} handleClose={handleCloseBillForm} />
+      <BillForm open={openBillForm} handleClose={handleCloseBillForm} />
       <DeleteBill open={openDeleteBill} handleClose={handleCloseDeleteBill} />
       <MarkAsPaid open={openMarkAsPaid} handleClose={handleCloseMarkAsPaid} />
     </Grid>

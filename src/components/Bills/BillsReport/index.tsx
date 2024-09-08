@@ -1,8 +1,8 @@
 import Grid from '@mui/material/Grid2';
-import StatCard from '../StatCard';
-import { BillType } from '../../types';
+import StatCard from '../../StatCard';
+import { BillType } from '../../../types';
 import { Typography } from '@mui/material';
-import { isThisWeek, isTomorrow } from '../../utils/date';
+import { isThisWeek, isTomorrow } from '../../../utils/date';
 
 function BillsReport({ bills }: { bills: BillType[] }) {
   const today = new Date();

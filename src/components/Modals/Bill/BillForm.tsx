@@ -13,7 +13,7 @@ import Grid from '@mui/material/Grid2';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useState } from 'react';
 
-function BillModal({
+function BillForm({
   open,
   handleClose
 }: {
@@ -93,4 +93,4 @@ function BillModal({
   );
 }
 
-export default BillModal;
+export default BillForm;

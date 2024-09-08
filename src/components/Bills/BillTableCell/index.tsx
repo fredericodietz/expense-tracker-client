@@ -5,7 +5,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 import EventIcon from '@mui/icons-material/Event';
-import { BillType } from '../../types';
+import { BillType } from '../../../types';
 
 function BillTableCell({
   bill,
@@ -61,6 +61,7 @@ function BillTableCell({
         <Stack direction="row" justifyContent="end" gap={1}>
           <Tooltip title="Mark as paid">
             <IconButton
+              disabled={bill.is_paid}
               aria-label="mark as paid"
               color="success"
               onClick={handleMarkAsReadClick}>

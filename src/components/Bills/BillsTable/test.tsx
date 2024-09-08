@@ -9,7 +9,7 @@ import {
 } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import BillsTable from '.';
-import { BillType } from '../../types';
+import { BillType } from '../../../types';
 
 function createData(
   id: number,

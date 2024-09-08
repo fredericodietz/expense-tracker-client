@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid2';
 import { Box, Stack, Typography } from '@mui/material';
-import BillsReport from '../BillsReport';
-import BillsTable from '../BillsTable';
+import BillsReport from '../../components/Bills/BillsReport';
+import BillsTable from '../../components/Bills/BillsTable';
 import seedData from '../../utils/seedData';
 
 function Dashboard() {

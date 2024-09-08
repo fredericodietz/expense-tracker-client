@@ -1,6 +1,6 @@
 import { Box, Stack } from '@mui/material';
-import Dashboard from './components/Dashboard';
-import Header from './components/Header';
+import Dashboard from './pages/Dashboard';
+import Header from './components/Layout/Header';
 
 function App() {
   return (
