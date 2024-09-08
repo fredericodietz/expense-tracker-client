@@ -1,8 +1,30 @@
-import './App.css';
+import { Box, Stack } from '@mui/material';
 import Dashboard from './components/Dashboard';
+import Header from './components/Header';
 
 function App() {
-  return <Dashboard />;
+  return (
+    <>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          overflow: 'auto'
+        }}>
+        <Stack
+          spacing={2}
+          sx={{
+            alignItems: 'center',
+            mx: 3,
+            pb: 10,
+            mt: { xs: 8, md: 0 }
+          }}>
+          <Header />
+          <Dashboard />
+        </Stack>
+      </Box>
+    </>
+  );
 }
 
 export default App;
