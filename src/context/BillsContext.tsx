@@ -1,16 +1,18 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react';
-import { BillType } from '../types';
+import { BillData, BillType } from '../types';
 
 interface BillContextType {
   bills: BillType[];
   initBills: (bills: BillType[]) => void;
-  addBill: (bill: BillType) => void;
+  addBill: (bill: BillData) => void;
   deleteBill: (bill: BillType) => void;
   markAsPaid: (bill: BillType) => void;
   updateBill: (bill: BillType) => void;
 }
 
-const BillsContext = createContext<BillContextType | undefined>(undefined);
+export const BillsContext = createContext<BillContextType | undefined>(
+  undefined
+);
 
 export const BillsProvider: React.FC<{ children: ReactNode }> = ({
   children
@@ -21,8 +23,11 @@ export const BillsProvider: React.FC<{ children: ReactNode }> = ({
     setBills(allBills);
   };
 
-  const addBill = (bill: BillType): void => {
-    setBills((prev) => [...prev, bill]);
+  const addBill = (bill: BillData): void => {
+    // TODO: get actual bill id from response and remove randomId
+    const randomId = Math.floor(Math.random() * (100000 - 100) + 100);
+    const billWithId = { ...bill, id: randomId };
+    setBills((prev) => [...prev, billWithId]);
   };
 
   const deleteBill = (bill: BillType) => {

@@ -1,8 +1,13 @@
-export interface BillType {
-  id: number;
+import { Categories } from './common';
+
+export interface BillData {
   name: string;
   amount_due?: number | null;
   due_day: number;
   is_paid: boolean;
-  category: string;
+  category: Categories;
 }
+
+export type BillType = BillData & {
+  id: number;
+};

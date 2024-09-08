@@ -10,24 +10,26 @@ import {
 import { render, screen } from '@testing-library/react';
 import BillsTable from '.';
 import { BillType } from '../../../types';
+import { Categories } from '../../../types/common';
+import { BillsContext } from '../../../context/BillsContext';
 
 function createData(
   id: number,
   name: string,
   due_day: number,
   is_paid: boolean,
-  category: string,
+  category: Categories,
   amount_due?: number | null
 ): BillType {
   return { id, name, due_day, amount_due, is_paid, category };
 }
 
 const data = [
-  createData(1, 'Light', 2, true, 'Utilities', 60.0),
-  createData(2, 'Water', 3, true, 'Utilities', 90.0),
-  createData(3, 'Internet', 6, false, 'Utilities', 30.0),
-  createData(4, 'Kids school', 10, false, 'Utilities', 1200),
-  createData(5, 'Credit card', 20, false, 'Utilities', null)
+  createData(1, 'Light', 2, true, Categories.Utilities, 60.0),
+  createData(2, 'Water', 3, true, Categories.Utilities, 90.0),
+  createData(3, 'Internet', 6, false, Categories.Utilities, 30.0),
+  createData(4, 'Kids school', 10, false, Categories.Utilities, 1200),
+  createData(5, 'Credit card', 20, false, Categories.Utilities, null)
 ];
 
 describe('<BillsTable />', () => {
@@ -37,7 +39,19 @@ describe('<BillsTable />', () => {
   });
 
   beforeEach(() => {
-    render(<BillsTable bills={data} />);
+    render(
+      <BillsContext.Provider
+        value={{
+          bills: data,
+          initBills: () => false,
+          addBill: () => false,
+          deleteBill: () => false,
+          markAsPaid: () => false,
+          updateBill: () => false
+        }}>
+        <BillsTable bills={data} />
+      </BillsContext.Provider>
+    );
   });
 
   afterAll(() => {

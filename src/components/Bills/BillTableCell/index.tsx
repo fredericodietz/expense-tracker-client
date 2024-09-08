@@ -22,7 +22,7 @@ function BillTableCell({
 }: {
   bill: BillType;
   handleMarkAsPaid: (bill: BillType) => void;
-  handleEdit: () => void;
+  handleEdit: (bill: BillType) => void;
   handleDelete: (bill: BillType) => void;
 }) {
   const TODAY = new Date().getDate();
@@ -32,7 +32,7 @@ function BillTableCell({
   };
 
   const handleEditClick = () => {
-    handleEdit();
+    handleEdit(bill);
   };
 
   const handleDeleteClick = () => {

@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import BillTableCell from '.';
+import { Categories } from '../../../types/common';
 
 describe('<BillTableCell />', () => {
   beforeAll(() => {
@@ -19,7 +20,7 @@ describe('<BillTableCell />', () => {
         name: 'paid bill',
         due_day: 3,
         is_paid: true,
-        category: 'category',
+        category: Categories.Education,
         amount_due: 100
       };
       render(
@@ -46,7 +47,7 @@ describe('<BillTableCell />', () => {
         name: 'paid bill',
         due_day: 3,
         is_paid: false,
-        category: 'category',
+        category: Categories.Education,
         amount_due: 100
       };
       render(
@@ -73,7 +74,7 @@ describe('<BillTableCell />', () => {
         name: 'paid bill',
         due_day: 13,
         is_paid: false,
-        category: 'category',
+        category: Categories.Education,
         amount_due: 100
       };
       render(

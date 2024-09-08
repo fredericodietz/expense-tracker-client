@@ -2,11 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import StatCard from '.';
 import { BillType } from '../../types';
+import { Categories } from '../../types/common';
 
 const tomorrow: BillType[] = [
   {
     id: 1,
-    category: 'Utilities',
+    category: Categories.Utilities,
     name: 'Electricity',
     amount_due: 75.0,
     due_day: new Date().getTime() + 1,
@@ -14,7 +15,7 @@ const tomorrow: BillType[] = [
   },
   {
     id: 2,
-    category: 'Utilities',
+    category: Categories.Utilities,
     name: 'Internet',
     amount_due: 50.0,
     due_day: new Date().getTime() + 1,
@@ -25,7 +26,7 @@ const tomorrow: BillType[] = [
 const today: BillType[] = [
   {
     id: 1,
-    category: 'Utilities',
+    category: Categories.Utilities,
     name: 'Electricity',
     amount_due: 75.0,
     due_day: new Date().getTime(),
@@ -33,7 +34,7 @@ const today: BillType[] = [
   },
   {
     id: 2,
-    category: 'Utilities',
+    category: Categories.Utilities,
     name: 'Internet',
     amount_due: 50.0,
     due_day: new Date().getTime(),
