@@ -17,7 +17,7 @@ const seedData: BillType[] = [
   createData(3, 'Internet', 6, false, 'Utilities', 30.0),
   createData(4, 'Kids school', new Date().getDate(), false, 'Education', 1200),
   createData(5, 'Car', new Date().getDate() + 1, false, 'Transport', 500),
-  createData(6, 'Rent', 12, false, 'House', 1200),
+  createData(6, 'Rent', 12, false, 'House', 1200.5),
   createData(7, 'Health insurance', 13, false, 'Insurance', 100),
   createData(8, 'Credit card', 20, false, 'Shopping', null)
 ];

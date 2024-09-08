@@ -22,12 +22,14 @@ function BillsTable({ bills }: { bills: BillType[] }) {
   const [openBillForm, setOpenBillForm] = useState(false);
   const [openDeleteBill, setOpenDeleteBill] = useState(false);
   const [openMarkAsPaid, setOpenMarkAsPaid] = useState(false);
+  const [currentBill, setCurrentBill] = useState<BillType | null>(null);
 
   const handleClickOpenBillForm = () => {
     setOpenBillForm(true);
   };
 
   const handleCloseBillForm = () => {
+    setCurrentBill(null);
     setOpenBillForm(false);
   };
 
@@ -36,14 +38,17 @@ function BillsTable({ bills }: { bills: BillType[] }) {
   };
 
   const handleCloseDeleteBill = () => {
+    setCurrentBill(null);
     setOpenDeleteBill(false);
   };
 
-  const handleClickOpenMarkAsPaid = () => {
+  const handleClickOpenMarkAsPaid = (bill: BillType) => {
+    setCurrentBill(bill);
     setOpenMarkAsPaid(true);
   };
 
   const handleCloseMarkAsPaid = () => {
+    setCurrentBill(null);
     setOpenMarkAsPaid(false);
   };
 
@@ -71,7 +76,7 @@ function BillsTable({ bills }: { bills: BillType[] }) {
               <BillTableCell
                 bill={bill}
                 key={bill.id}
-                handleMarkAsRead={handleClickOpenMarkAsPaid}
+                handleMarkAsPaid={handleClickOpenMarkAsPaid}
                 handleEdit={handleClickOpenBillForm}
                 handleDelete={handleClickOpenDeleteBill}
               />
@@ -87,7 +92,13 @@ function BillsTable({ bills }: { bills: BillType[] }) {
       </Button>
       <BillForm open={openBillForm} handleClose={handleCloseBillForm} />
       <DeleteBill open={openDeleteBill} handleClose={handleCloseDeleteBill} />
-      <MarkAsPaid open={openMarkAsPaid} handleClose={handleCloseMarkAsPaid} />
+      {currentBill && (
+        <MarkAsPaid
+          open={openMarkAsPaid}
+          handleClose={handleCloseMarkAsPaid}
+          bill={currentBill}
+        />
+      )}
     </Grid>
   );
 }

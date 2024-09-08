@@ -1,4 +1,11 @@
-import { IconButton, TableCell, TableRow, Stack, Tooltip } from '@mui/material';
+import {
+  IconButton,
+  TableCell,
+  TableRow,
+  Stack,
+  Tooltip,
+  Box
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import PaidIcon from '@mui/icons-material/Paid';
@@ -9,19 +16,19 @@ import { BillType } from '../../../types';
 
 function BillTableCell({
   bill,
-  handleMarkAsRead,
+  handleMarkAsPaid,
   handleEdit,
   handleDelete
 }: {
   bill: BillType;
-  handleMarkAsRead: () => void;
+  handleMarkAsPaid: (bill: BillType) => void;
   handleEdit: () => void;
   handleDelete: () => void;
 }) {
   const TODAY = new Date().getDate();
 
-  const handleMarkAsReadClick = () => {
-    handleMarkAsRead();
+  const handleMarkAsPaidClick = () => {
+    handleMarkAsPaid(bill);
   };
 
   const handleEditClick = () => {
@@ -59,14 +66,28 @@ function BillTableCell({
       </TableCell>
       <TableCell align="right">
         <Stack direction="row" justifyContent="end" gap={1}>
-          <Tooltip title="Mark as paid">
-            <IconButton
-              disabled={bill.is_paid}
-              aria-label="mark as paid"
-              color="success"
-              onClick={handleMarkAsReadClick}>
-              <PaidIcon />
-            </IconButton>
+          <Tooltip title={bill.is_paid ? 'Paid' : 'Mark as paid'}>
+            {bill.is_paid ? (
+              <Box
+                sx={{
+                  width: '2.5rem',
+                  height: '2.5rem',
+                  opacity: '0.5',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
+                <PaidIcon />
+              </Box>
+            ) : (
+              <IconButton
+                data-testid="mark-as-paid-button"
+                aria-label="mark as paid"
+                color="success"
+                onClick={handleMarkAsPaidClick}>
+                <PaidIcon />
+              </IconButton>
+            )}
           </Tooltip>
           <Tooltip title="Edit">
             <IconButton aria-label="edit" onClick={handleEditClick}>
