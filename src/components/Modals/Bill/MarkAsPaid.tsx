@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -9,7 +10,7 @@ import {
 } from '@mui/material';
 import { BillType } from '../../../types';
 import { useBillsContext } from '../../../context/BillsContext';
-import { useState } from 'react';
+import { NumericFormat, NumberFormatValues } from 'react-number-format';
 
 function MarkAsPaid({
   open,
@@ -21,40 +22,42 @@ function MarkAsPaid({
   bill: BillType;
 }) {
   const { markAsPaid, updateBill } = useBillsContext();
-  const [amount, setAmount] = useState(
-    bill.amount_due?.toFixed(2).toString() || '0'
-  );
+  const [amount, setAmount] = useState(bill.amount_due || 0);
 
   const handleMarkAsPaidClick = () => {
-    if (bill) {
-      const amountCurrency = parseFloat(amount);
-      if (amountCurrency !== bill.amount_due) {
-        bill.amount_due = amountCurrency;
-        bill.is_paid = true;
-        updateBill(bill);
-      } else {
-        markAsPaid(bill);
-      }
+    if (amount <= 0) {
+      return;
     }
+
+    if (amount !== bill.amount_due) {
+      bill.amount_due = amount;
+      bill.is_paid = true;
+      updateBill(bill);
+    } else {
+      markAsPaid(bill);
+    }
+
     handleClose();
   };
 
-  const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(event.target.value);
+  const handleAmountChange = (values: NumberFormatValues) => {
+    const value = values.floatValue;
+    setAmount(value || 0);
   };
 
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Mark {bill.name} as paid?</DialogTitle>
       <DialogContent>
-        <TextField
+        <NumericFormat
+          customInput={TextField}
+          thousandSeparator
           margin="dense"
           id="amount"
           name="amount"
           label="Amount"
           type="text"
           value={amount}
-          onChange={handleAmountChange}
           slotProps={{
             input: {
               startAdornment: (
@@ -62,6 +65,7 @@ function MarkAsPaid({
               )
             }
           }}
+          onValueChange={handleAmountChange}
           fullWidth
         />
       </DialogContent>
@@ -70,6 +74,7 @@ function MarkAsPaid({
           Cancel
         </Button>
         <Button
+          disabled={amount === 0}
           type="submit"
           variant="contained"
           onClick={handleMarkAsPaidClick}>
