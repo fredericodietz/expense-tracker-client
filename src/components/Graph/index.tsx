@@ -23,7 +23,7 @@ function removeDuplicates(arr: BillType[]): BillType[] {
 }
 
 function Graph() {
-  const { stats } = useBillsContext();
+  const { bills, stats } = useBillsContext();
   const { late, today, tomorrow, week } = stats;
   const paid = getTotalAmount(
     removeDuplicates([...today.paid, ...tomorrow.paid, ...week.paid])
@@ -45,6 +45,10 @@ function Graph() {
       }
     ]
   };
+
+  if (!bills || bills.length === 0) {
+    return;
+  }
 
   return (
     <Grid size={{ xs: 6, lg: 4 }} sx={{ mt: 4 }}>

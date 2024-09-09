@@ -95,6 +95,9 @@ function BillsTable() {
     const { paid, unpaid } = paymentReport(sortedBills);
     const now = new Date();
     const currentDayOfWeek = now.getDate();
+    const { unpaid: lateUnpaid } = paymentReport(
+      sortedBills.filter((b) => +b.dueDay < currentDayOfWeek)
+    );
 
     switch (value) {
       case 'all':
@@ -107,9 +110,7 @@ function BillsTable() {
         setCurrentBills(unpaid);
         break;
       case 'late':
-        setCurrentBills(
-          sortedBills.filter((b) => +b.dueDay < currentDayOfWeek)
-        );
+        setCurrentBills(lateUnpaid);
         break;
       default:
         setCurrentBills(sortedBills);
@@ -123,21 +124,23 @@ function BillsTable() {
         <Typography component="h2" variant="h5" sx={{ mb: 2 }}>
           This month
         </Typography>
-        <FormControl size="small" sx={{ width: '200px', mb: 1 }}>
-          <InputLabel id="filter-select-label">Filter</InputLabel>
-          <Select
-            labelId="filter-select-label"
-            id="filter"
-            name="filter"
-            value={filterBy}
-            label="Filter"
-            onChange={handleFilterChange}>
-            <MenuItem value="all">Show all</MenuItem>
-            <MenuItem value="paid">Paid</MenuItem>
-            <MenuItem value="late">Late</MenuItem>
-            <MenuItem value="unpaid">Unpaid</MenuItem>
-          </Select>
-        </FormControl>
+        {bills?.length > 0 && (
+          <FormControl size="small" sx={{ width: '200px', mb: 1 }}>
+            <InputLabel id="filter-select-label">Filter</InputLabel>
+            <Select
+              labelId="filter-select-label"
+              id="filter"
+              name="filter"
+              value={filterBy}
+              label="Filter"
+              onChange={handleFilterChange}>
+              <MenuItem value="all">Show all</MenuItem>
+              <MenuItem value="paid">Paid</MenuItem>
+              <MenuItem value="late">Late</MenuItem>
+              <MenuItem value="unpaid">Unpaid</MenuItem>
+            </Select>
+          </FormControl>
+        )}
       </Stack>
       {currentBills.length > 0 ? (
         <TableContainer component={Paper}>
@@ -165,10 +168,12 @@ function BillsTable() {
             </TableBody>
           </Table>
         </TableContainer>
-      ) : (
+      ) : bills.length === 0 ? (
         <Typography variant="h6">
           You don't have any bills yet, create the first one
         </Typography>
+      ) : (
+        <Typography variant="h6">No results found</Typography>
       )}
       <Button
         variant="contained"
