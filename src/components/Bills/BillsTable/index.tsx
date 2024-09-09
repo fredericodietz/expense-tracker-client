@@ -43,8 +43,11 @@ function BillsTable() {
   };
 
   const handleCloseBillForm = () => {
-    setCurrentBill(null);
     setOpenBillForm(false);
+    // :)
+    setTimeout(() => {
+      setCurrentBill(null);
+    }, 0);
   };
 
   const handleClickOpenDeleteBill = (bill: BillType) => {
@@ -53,18 +56,18 @@ function BillsTable() {
   };
 
   const handleCloseDeleteBill = () => {
-    setCurrentBill(null);
     setOpenDeleteBill(false);
+    setCurrentBill(null);
   };
 
   const handleClickOpenMarkAsPaid = (bill: BillType) => {
-    setCurrentBill(bill);
     setOpenMarkAsPaid(true);
+    setCurrentBill(bill);
   };
 
   const handleCloseMarkAsPaid = () => {
-    setCurrentBill(null);
     setOpenMarkAsPaid(false);
+    setCurrentBill(null);
   };
 
   return (
