@@ -9,8 +9,8 @@ import {
   TextField
 } from '@mui/material';
 import { BillType } from '../../../types';
-import { useBillsContext } from '../../../context/BillsContext';
 import { NumericFormat, NumberFormatValues } from 'react-number-format';
+import useAPI from '../../../hooks/useAPI';
 
 function MarkAsPaid({
   open,
@@ -21,28 +21,24 @@ function MarkAsPaid({
   handleClose: () => void;
   bill: BillType;
 }) {
-  const { markAsPaid, updateBill } = useBillsContext();
-  const [amount, setAmount] = useState(bill.amount_due || 0);
+  const { handlePayBill, handleUpdateBill } = useAPI();
+  const [amount, setAmount] = useState(bill.amount_due || '0');
 
   const handleMarkAsPaidClick = () => {
-    if (amount <= 0) {
-      return;
-    }
-
     if (amount !== bill.amount_due) {
       bill.amount_due = amount;
       bill.is_paid = true;
-      updateBill(bill);
+      handleUpdateBill(bill);
     } else {
-      markAsPaid(bill);
+      handlePayBill(bill.id);
     }
 
     handleClose();
   };
 
   const handleAmountChange = (values: NumberFormatValues) => {
-    const value = values.floatValue;
-    setAmount(value || 0);
+    const value = values.value;
+    setAmount(value || '0');
   };
 
   return (
@@ -74,7 +70,7 @@ function MarkAsPaid({
           Cancel
         </Button>
         <Button
-          disabled={amount === 0}
+          disabled={amount === '0'}
           type="submit"
           variant="contained"
           onClick={handleMarkAsPaidClick}>

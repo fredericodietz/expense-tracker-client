@@ -4,5 +4,6 @@ export enum Categories {
   Insurance = 'Insurance',
   Transport = 'Transport',
   House = 'House',
-  Shopping = 'Shopping'
+  Shopping = 'Shopping',
+  Leisure = 'Leisure'
 }

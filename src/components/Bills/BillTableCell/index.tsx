@@ -43,10 +43,10 @@ function BillTableCell({
     <TableRow
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       data-testid="bill-tablecell">
-      <TableCell>{bill.name}</TableCell>
+      <TableCell data-testid="bill-name">{bill.name}</TableCell>
       <TableCell align="center">{bill.due_day}</TableCell>
       <TableCell align="center">
-        {bill.amount_due ? `$ ${bill.amount_due.toFixed(2)}` : '-'}
+        {bill.amount_due ? `$ ${bill.amount_due}` : '-'}
       </TableCell>
       <TableCell align="center">{bill.category}</TableCell>
       <TableCell align="center">

@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { BillType } from '../../../types';
-import { useBillsContext } from '../../../context/BillsContext';
+import useAPI from '../../../hooks/useAPI';
 
 function DeleteBill({
   open,
@@ -11,10 +11,10 @@ function DeleteBill({
   handleClose: () => void;
   bill: BillType;
 }) {
-  const { deleteBill } = useBillsContext();
+  const { handleDeleteBill } = useAPI();
 
   const handleDeleteClick = () => {
-    deleteBill(bill);
+    handleDeleteBill(bill.id);
     handleClose();
   };
 

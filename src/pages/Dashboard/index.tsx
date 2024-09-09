@@ -2,19 +2,29 @@ import Grid from '@mui/material/Grid2';
 import { Box, CircularProgress, Stack, Typography } from '@mui/material';
 import BillsReport from '../../components/Bills/BillsReport';
 import BillsTable from '../../components/Bills/BillsTable';
-import seedData from '../../utils/seedData';
 import { useBillsContext } from '../../context/BillsContext';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import useAPI from '../../hooks/useAPI';
 
 function Dashboard() {
-  const { bills, initBills } = useBillsContext();
-  const [isLoading, setIsLoading] = useState(true);
+  const { bills } = useBillsContext();
+  const { listBills, error, isLoading } = useAPI();
+
   useEffect(() => {
-    setTimeout(() => {
-      initBills(seedData);
-      setIsLoading(false);
-    }, 700);
+    listBills();
   }, []);
+
+  if (error) {
+    return (
+      <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>
+        <Box sx={{ textAlign: 'center' }}>
+          <Typography variant="h4">
+            An error happend. Please try again later
+          </Typography>
+        </Box>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>

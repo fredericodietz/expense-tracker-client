@@ -1,12 +1,12 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react';
-import { BillData, BillType } from '../types';
+import { BillType } from '../types';
 
 interface BillContextType {
   bills: BillType[];
   initBills: (bills: BillType[]) => void;
-  addBill: (bill: BillData) => void;
-  deleteBill: (bill: BillType) => void;
-  markAsPaid: (bill: BillType) => void;
+  addBill: (bill: BillType) => void;
+  deleteBill: (id: number) => void;
+  markAsPaid: (id: number) => void;
   updateBill: (bill: BillType) => void;
 }
 
@@ -23,34 +23,31 @@ export const BillsProvider: React.FC<{ children: ReactNode }> = ({
     setBills(allBills);
   };
 
-  const addBill = (bill: BillData): void => {
-    // TODO: get actual bill id from response and remove randomId
-    const randomId = Math.floor(Math.random() * (100000 - 100) + 100);
-    const billWithId = { ...bill, id: randomId };
-    setBills((prev) => [...prev, billWithId]);
+  const addBill = (bill: BillType): void => {
+    setBills((prev) => [...prev, bill]);
   };
 
-  const deleteBill = (bill: BillType) => {
-    setBills((prev) => prev.filter((b) => b.id !== bill.id));
+  const deleteBill = (id: number) => {
+    setBills((prev) => prev.filter((b) => b.id !== id));
   };
 
-  const markAsPaid = (bill: BillType): void => {
+  const markAsPaid = (id: number): void => {
     setBills((prev) => {
       const billsList = [...prev];
-      const paidBill = billsList.find((b) => b.id === bill.id);
-      if (paidBill) {
-        paidBill.is_paid = true;
+      const paidBillIndex = billsList.findIndex((b) => b.id === id);
+      if (paidBillIndex) {
+        billsList[paidBillIndex].is_paid = true;
       }
       return billsList;
     });
   };
 
-  const updateBill = (bill: BillType): void => {
+  const updateBill = (updatedBill: BillType): void => {
     setBills((prev) => {
       const billsList = [...prev];
-      let paidBill = billsList.find((b) => b.id === bill.id);
-      if (paidBill) {
-        paidBill = { ...bill };
+      const oldBillIndex = billsList.findIndex((b) => b.id === updatedBill.id);
+      if (oldBillIndex) {
+        billsList[oldBillIndex] = updatedBill;
       }
       return billsList;
     });

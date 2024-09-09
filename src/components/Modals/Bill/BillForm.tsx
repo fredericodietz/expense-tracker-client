@@ -13,10 +13,10 @@ import {
 import Grid from '@mui/material/Grid2';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import React, { useEffect, useState } from 'react';
-import { BillData, BillType } from '../../../types';
+import { BillType } from '../../../types';
 import { Categories } from '../../../types/common';
 import { NumericFormat, NumberFormatValues } from 'react-number-format';
-import { useBillsContext } from '../../../context/BillsContext';
+import useAPI from '../../../hooks/useAPI';
 
 function BillForm({
   open,
@@ -27,19 +27,19 @@ function BillForm({
   handleClose: () => void;
   bill?: BillType | null;
 }) {
-  const { addBill, updateBill } = useBillsContext();
+  const { createBill, handleUpdateBill } = useAPI();
 
-  const billTemplate: BillData = {
+  const billTemplate: Omit<BillType, 'id'> = {
     category: Categories.Utilities,
     name: '',
-    amount_due: 0,
+    amount_due: '0.00',
     due_day: 1,
     is_paid: false
   };
 
-  const [billFormData, setFormBillData] = useState<BillType | BillData>(
-    billTemplate
-  );
+  const [billFormData, setFormBillData] = useState<
+    BillType | Omit<BillType, 'id'>
+  >(billTemplate);
 
   const handleChange = (event: SelectChangeEvent) => {
     setFormBillData({
@@ -58,15 +58,16 @@ function BillForm({
   const handleFormSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (bill?.id) {
-      updateBill(billFormData as BillType);
+      handleUpdateBill(billFormData as BillType);
+      handleClose();
       return;
     }
-    addBill(billFormData as BillData);
+    createBill(billFormData as Omit<BillType, 'id'>);
     handleClose();
   };
 
   const handleAmountChange = (values: NumberFormatValues) => {
-    const value = values.floatValue;
+    const value = values.value;
     setFormBillData({
       ...billFormData,
       amount_due: value
@@ -79,7 +80,9 @@ function BillForm({
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>{bill ? `Edit ${bill.name}` : 'Add new'} bill</DialogTitle>
+      <DialogTitle data-testid="form-title">
+        {bill ? `Edit ${bill.name}` : 'Add new'} bill
+      </DialogTitle>
       <form onSubmit={handleFormSubmit}>
         <DialogContent>
           <Grid container spacing={2} columns={12}>
@@ -91,6 +94,7 @@ function BillForm({
                 id="name"
                 name="name"
                 label="Bill"
+                placeholder="Bill"
                 type="text"
                 value={billFormData.name}
                 onChange={handleInputChange}
