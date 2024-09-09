@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Table,
   TableBody,
@@ -9,7 +9,10 @@ import {
   Paper,
   Stack,
   Button,
-  Typography
+  Typography,
+  FormControl,
+  InputLabel,
+  MenuItem
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import BillForm from '../../Modals/Bill/BillForm';
@@ -18,17 +21,33 @@ import MarkAsPaid from '../../Modals/Bill/MarkAsPaid';
 import { BillType } from '../../../types';
 import BillTableCell from '../BillTableCell';
 import { useBillsContext } from '../../../context/BillsContext';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { paymentReport } from '../../../utils/payment';
 
 function BillsTable() {
   const { bills } = useBillsContext();
+  const sortedBills = bills.sort((a, b) => {
+    if (a.dueDay === b.dueDay) {
+      return 0;
+    }
+    return a.dueDay > b.dueDay ? 1 : -1;
+  });
+  const [currentBills, setCurrentBills] = useState<BillType[]>(sortedBills);
+  const [filterBy, setFilterBy] = useState('');
   const [openBillForm, setOpenBillForm] = useState(false);
   const [openDeleteBill, setOpenDeleteBill] = useState(false);
   const [openMarkAsPaid, setOpenMarkAsPaid] = useState(false);
   const [currentBill, setCurrentBill] = useState<BillType | null>(null);
 
-  const sortedBills = bills.sort((a, b) => {
-    return a.dueDay > b.dueDay ? 1 : -1;
-  });
+  useEffect(() => {
+    const sortedBills = bills.sort((a, b) => {
+      if (a.dueDay === b.dueDay) {
+        return 0;
+      }
+      return a.dueDay > b.dueDay ? 1 : -1;
+    });
+    setCurrentBills(sortedBills);
+  }, [bills]);
 
   const handleAddNewBill = () => {
     setCurrentBill(null);
@@ -70,14 +89,57 @@ function BillsTable() {
     setCurrentBill(null);
   };
 
+  const handleFilterChange = (event: SelectChangeEvent) => {
+    const value = event.target.value;
+    setFilterBy(value);
+    const { paid, unpaid } = paymentReport(sortedBills);
+    const now = new Date();
+    const currentDayOfWeek = now.getDate();
+
+    switch (value) {
+      case 'all':
+        setCurrentBills(sortedBills);
+        break;
+      case 'paid':
+        setCurrentBills(paid);
+        break;
+      case 'unpaid':
+        setCurrentBills(unpaid);
+        break;
+      case 'late':
+        setCurrentBills(
+          sortedBills.filter((b) => +b.dueDay < currentDayOfWeek)
+        );
+        break;
+      default:
+        setCurrentBills(sortedBills);
+        break;
+    }
+  };
+
   return (
     <Grid size={{ md: 12, lg: 8 }} sx={{ mt: 4 }}>
-      <Stack direction="row">
+      <Stack direction="row" justifyContent="space-between">
         <Typography component="h2" variant="h5" sx={{ mb: 2 }}>
           This month
         </Typography>
+        <FormControl size="small" sx={{ width: '200px', mb: 1 }}>
+          <InputLabel id="filter-select-label">Filter</InputLabel>
+          <Select
+            labelId="filter-select-label"
+            id="filter"
+            name="filter"
+            value={filterBy}
+            label="Filter"
+            onChange={handleFilterChange}>
+            <MenuItem value="all">Show all</MenuItem>
+            <MenuItem value="paid">Paid</MenuItem>
+            <MenuItem value="late">Late</MenuItem>
+            <MenuItem value="unpaid">Unpaid</MenuItem>
+          </Select>
+        </FormControl>
       </Stack>
-      {sortedBills.length > 0 ? (
+      {currentBills.length > 0 ? (
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -91,7 +153,7 @@ function BillsTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedBills.map((bill: BillType) => (
+              {currentBills.map((bill: BillType) => (
                 <BillTableCell
                   bill={bill}
                   key={bill.id}

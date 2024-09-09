@@ -48,10 +48,13 @@ function Graph() {
 
   return (
     <Grid size={{ xs: 6, lg: 4 }} sx={{ mt: 4 }}>
-      <Typography component="h2" variant="h5" sx={{ mb: 2 }}>
+      <Typography
+        component="h2"
+        variant="h5"
+        sx={{ mb: 2, textAlign: 'center' }}>
         Weekly status
       </Typography>
-      <Box p={4} mt={4}>
+      <Box px={4}>
         <Pie data={data} />
       </Box>
     </Grid>

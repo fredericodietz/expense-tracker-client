@@ -52,24 +52,17 @@ export const BillsProvider: React.FC<{ children: ReactNode }> = ({
     const currentDayOfWeek = now.getDate();
 
     const late: Stats = paymentReport(
-      allBills.filter((b) => +b.dueDay < currentDayOfWeek),
-      now
+      allBills.filter((b) => +b.dueDay < currentDayOfWeek)
     );
 
     const today: Stats = paymentReport(
-      allBills.filter((b) => +b.dueDay === currentDayOfWeek),
-      now
+      allBills.filter((b) => +b.dueDay === currentDayOfWeek)
     );
 
-    const tomorrowDate = new Date(now);
-    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
     const tomorrow: Stats = paymentReport(
-      allBills.filter((b) => isTomorrow(+b.dueDay)),
-      tomorrowDate
+      allBills.filter((b) => isTomorrow(+b.dueDay))
     );
 
-    const startOfWeek = new Date();
-    startOfWeek.setDate(now.getDate() - currentDayOfWeek);
     const week: Stats = paymentReport(
       allBills.filter((b) => isDayInCurrentWeek(+b.dueDay))
     );
