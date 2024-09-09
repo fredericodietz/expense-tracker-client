@@ -1,15 +1,11 @@
 import Grid from '@mui/material/Grid2';
 import StatCard from '../../StatCard';
-import { BillType } from '../../../types';
 import { Typography } from '@mui/material';
-import { isThisWeek, isTomorrow } from '../../../utils/date';
+import { useBillsContext } from '../../../context/BillsContext';
 
-function BillsReport({ bills }: { bills: BillType[] }) {
-  const today = new Date();
-  const todayNumber = today.getDate();
-  const dueToday: BillType[] = bills.filter((b) => b.due_day === todayNumber);
-  const dueTomorrow: BillType[] = bills.filter((b) => isTomorrow(b.due_day));
-  const dueThisWeek: BillType[] = bills.filter((b) => isThisWeek(b.due_day));
+function BillsReport() {
+  const { stats } = useBillsContext();
+  const { late, today, tomorrow, week } = stats;
 
   return (
     <>
@@ -18,14 +14,17 @@ function BillsReport({ bills }: { bills: BillType[] }) {
           Overview
         </Typography>
       </Grid>
-      <Grid size={{ xs: 6, md: 4 }}>
-        <StatCard title="Today" data={dueToday} />
+      <Grid size={{ xs: 6, md: 3 }}>
+        <StatCard title="Late" late data={late} />
       </Grid>
-      <Grid size={{ sm: 6, md: 4 }}>
-        <StatCard title="Tomorrow" data={dueTomorrow} />
+      <Grid size={{ xs: 6, md: 3 }}>
+        <StatCard title="Today" data={today} />
       </Grid>
-      <Grid size={{ sm: 12, md: 4 }}>
-        <StatCard title="This Week" data={dueThisWeek} />
+      <Grid size={{ sm: 6, md: 3 }}>
+        <StatCard title="Tomorrow" data={tomorrow} />
+      </Grid>
+      <Grid size={{ sm: 12, md: 3 }}>
+        <StatCard title="This Week" data={week} />
       </Grid>
     </>
   );

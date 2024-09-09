@@ -1,10 +1,17 @@
 import { Card, CardContent, Chip, Stack, Typography } from '@mui/material';
-import { BillType } from '../../types';
+import { Stats } from '../../types';
 import getTotalAmount from '../../utils/getTotalAmount';
 
-function StatCard({ title, data }: { title: string; data: BillType[] }) {
-  const unpaid = data.filter((b) => !b.is_paid);
-  const paid = data.filter((b) => b.is_paid);
+function StatCard({
+  title,
+  data,
+  late = false
+}: {
+  title: string;
+  data: Stats;
+  late?: boolean;
+}) {
+  const { paid, unpaid } = data;
 
   return (
     <>
@@ -33,19 +40,27 @@ function StatCard({ title, data }: { title: string; data: BillType[] }) {
                   label={`$ ${getTotalAmount(unpaid).toFixed(2)}`}
                 />
               </Stack>
-              <Stack
-                direction="row"
-                sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant="h6" component="p" data-testid="paid-bills">
-                  {paid.length} Paid
-                </Typography>
-                <Chip
-                  size="small"
-                  color="success"
-                  data-testid="amount-paid"
-                  label={`$ ${getTotalAmount(paid).toFixed(2)}`}
-                />
-              </Stack>
+              {!late && (
+                <Stack
+                  direction="row"
+                  sx={{
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}>
+                  <Typography
+                    variant="h6"
+                    component="p"
+                    data-testid="paid-bills">
+                    {paid.length} Paid
+                  </Typography>
+                  <Chip
+                    size="small"
+                    color="success"
+                    data-testid="amount-paid"
+                    label={`$ ${getTotalAmount(paid).toFixed(2)}`}
+                  />
+                </Stack>
+              )}
             </Stack>
           </Stack>
         </CardContent>

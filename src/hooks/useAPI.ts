@@ -9,7 +9,7 @@ interface UseAPI {
   createBill: (newBill: Omit<BillType, 'id'>) => void;
   handleUpdateBill: (updatedBill: BillType) => void;
   handleDeleteBill: (id: number) => void;
-  handlePayBill: (id: number) => void;
+  handlePayBill: (id: number, amountPaid: string) => void;
 }
 
 const useAPI = (): UseAPI => {
@@ -58,15 +58,21 @@ const useAPI = (): UseAPI => {
     }
   };
 
-  const handlePayBill = async (id: number) => {
+  const handlePayBill = async (id: number, amountPaid: string) => {
     setIsLoading(true);
     try {
       const response = await fetch(`${baseUrl}/${id}/pay`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amountPaid,
+          paymentDate: new Date(),
+          billId: id
+        })
       });
       if (response.ok) {
-        markAsPaid(id);
+        const payment = await response.json();
+        markAsPaid(id, payment);
         setError(null);
       } else {
         setError('Failed to mark as paid');

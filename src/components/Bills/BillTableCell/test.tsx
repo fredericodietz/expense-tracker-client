@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import BillTableCell from '.';
 import { Categories } from '../../../types/common';
+import { BillType } from '../../../types';
 
 describe('<BillTableCell />', () => {
   beforeAll(() => {
@@ -15,13 +16,21 @@ describe('<BillTableCell />', () => {
 
   describe('Mark as paid', () => {
     it('Should display that the bill is already paid', () => {
-      const paidBill = {
+      const today = new Date();
+      const paidBill: BillType = {
         id: 1,
         name: 'paid bill',
-        due_day: 3,
-        is_paid: true,
+        dueDay: 3,
         category: Categories.Education,
-        amount_due: 100
+        amountDue: '100',
+        Payments: [
+          {
+            id: 1,
+            amountPaid: 65,
+            paymentDate: today.toISOString(),
+            billId: 1
+          }
+        ]
       };
       render(
         <BillTableCell
@@ -42,13 +51,13 @@ describe('<BillTableCell />', () => {
     });
 
     it('Should display the bill as late', () => {
-      const paidBill = {
+      const paidBill: BillType = {
         id: 1,
         name: 'paid bill',
-        due_day: 3,
-        is_paid: false,
+        dueDay: 3,
         category: Categories.Education,
-        amount_due: 100
+        amountDue: '100',
+        Payments: []
       };
       render(
         <BillTableCell
@@ -69,13 +78,13 @@ describe('<BillTableCell />', () => {
     });
 
     it('Should display the bill as unpaid', () => {
-      const paidBill = {
+      const paidBill: BillType = {
         id: 1,
         name: 'paid bill',
-        due_day: 13,
-        is_paid: false,
+        dueDay: 13,
         category: Categories.Education,
-        amount_due: 100
+        amountDue: '100',
+        Payments: []
       };
       render(
         <BillTableCell

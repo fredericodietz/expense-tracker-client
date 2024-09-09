@@ -7,16 +7,16 @@ const bills: BillType[] = [
     id: 1,
     category: 'Utilities',
     name: 'Electricity',
-    amount_due: 75.0,
-    due_day: 1,
+    amountDue: 75.0,
+    dueDay: 1,
     is_paid: false
   },
   {
     id: 2,
     category: 'Utilities',
     name: 'Internet',
-    amount_due: 50.0,
-    due_day: 2,
+    amountDue: 50.0,
+    dueDay: 2,
     is_paid: false
   }
 ];

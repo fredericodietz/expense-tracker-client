@@ -9,36 +9,83 @@ import {
 } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import BillsTable from '.';
-import { BillType } from '../../../types';
+import { BillType, Payment } from '../../../types';
 import { Categories } from '../../../types/common';
 import { BillsContext } from '../../../context/BillsContext';
 
 function createData(
   id: number,
   name: string,
-  due_day: number,
-  is_paid: boolean,
+  dueDay: number,
   category: Categories,
-  amount_due?: number | null
+  Payments: Payment[],
+  amountDue?: string | null
 ): BillType {
-  return { id, name, due_day, amount_due, is_paid, category };
+  return { id, name, dueDay, amountDue, Payments, category };
 }
 
-const data = [
-  createData(1, 'Light', 2, true, Categories.Utilities, 60.0),
-  createData(2, 'Water', 3, true, Categories.Utilities, 90.0),
-  createData(3, 'Internet', 6, false, Categories.Utilities, 30.0),
-  createData(4, 'Kids school', 10, false, Categories.Utilities, 1200),
-  createData(5, 'Credit card', 20, false, Categories.Utilities, null)
-];
+const statsObj = {
+  late: {
+    paid: [],
+    unpaid: []
+  },
+  today: {
+    paid: [],
+    unpaid: []
+  },
+  tomorrow: {
+    paid: [],
+    unpaid: []
+  },
+  week: {
+    paid: [],
+    unpaid: []
+  }
+};
 
 describe('<BillsTable />', () => {
   beforeAll(() => {
     const mockDate = new Date(2024, 7, 7);
     vi.setSystemTime(mockDate);
   });
-
   beforeEach(() => {
+    const TODAY = new Date();
+    const data = [
+      createData(
+        1,
+        'Light',
+        2,
+        Categories.Utilities,
+        [
+          {
+            id: 1,
+            amountPaid: 60,
+            paymentDate: TODAY.toISOString(),
+            billId: 1
+          }
+        ],
+        '60.0'
+      ),
+      createData(
+        2,
+        'Water',
+        3,
+        Categories.Utilities,
+        [
+          {
+            id: 1,
+            amountPaid: 90,
+            paymentDate: TODAY.toISOString(),
+            billId: 2
+          }
+        ],
+        '90.0'
+      ),
+      createData(3, 'Internet', 6, Categories.Utilities, [], '30.0'),
+      createData(4, 'Kids school', 10, Categories.Utilities, [], '1200'),
+      createData(5, 'Credit card', 20, Categories.Utilities, [], '')
+    ];
+
     render(
       <BillsContext.Provider
         value={{
@@ -47,9 +94,10 @@ describe('<BillsTable />', () => {
           addBill: () => false,
           deleteBill: () => false,
           markAsPaid: () => false,
-          updateBill: () => false
+          updateBill: () => false,
+          stats: statsObj
         }}>
-        <BillsTable bills={data} />
+        <BillsTable />
       </BillsContext.Provider>
     );
   });

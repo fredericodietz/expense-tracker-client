@@ -1,49 +1,26 @@
-export function daysInMonth(year: number, month: number): number {
+export const daysInMonth = (year: number, month: number): number => {
   return new Date(year, month + 1, 0).getDate();
-}
+};
 
-export function isTomorrow(due_day: number): boolean {
+export const isTomorrow = (dueDay: number): boolean => {
   const today = new Date();
-  const todayNumber = today.getDate();
-  const current_year = today.getFullYear();
-  const current_month = today.getMonth();
-  return (
-    due_day === todayNumber + 1 ||
-    (todayNumber >= daysInMonth(current_year, current_month) && due_day === 1)
-  );
-}
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowDayNumber = tomorrow.getDate();
+  return dueDay === tomorrowDayNumber;
+};
 
-export function isThisWeek(due_day: number): boolean {
-  const today = new Date();
-  const currentDayOfWeek = today.getDay();
+export const isDayInCurrentWeek = (day: number): boolean => {
+  const now = new Date();
   const startOfWeek = new Date();
-  startOfWeek.setDate(today.getDate() - currentDayOfWeek);
-  const endOfWeek = new Date();
-  endOfWeek.setDate(today.getDate() + (6 - currentDayOfWeek));
-  const current_month = today.getMonth();
-  const current_year = today.getFullYear();
-  const lastDayOfCurrentMonth = daysInMonth(current_year, current_month);
+  startOfWeek.setDate(now.getDate() - now.getDay());
+  const daysOfThisWeek = [];
 
-  if (
-    startOfWeek.getMonth() === current_month &&
-    endOfWeek.getMonth() === current_month
-  ) {
-    if (
-      due_day > lastDayOfCurrentMonth &&
-      lastDayOfCurrentMonth === endOfWeek.getDate()
-    ) {
-      return true;
-    }
-    return due_day >= startOfWeek.getDate() && due_day <= endOfWeek.getDate();
+  for (let i = 0; i < 7; i++) {
+    const nextDay = new Date();
+    nextDay.setDate(startOfWeek.getDate() + i);
+    daysOfThisWeek.push(nextDay.getDate());
   }
 
-  if (due_day >= startOfWeek.getDate() && due_day >= endOfWeek.getDate()) {
-    return true;
-  }
-
-  if (due_day <= startOfWeek.getDate() && due_day <= endOfWeek.getDate()) {
-    return true;
-  }
-
-  return false;
-}
+  return daysOfThisWeek.includes(day);
+};

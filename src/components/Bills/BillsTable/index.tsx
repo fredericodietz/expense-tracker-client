@@ -17,12 +17,18 @@ import DeleteBill from '../../Modals/Bill/DeleteBill';
 import MarkAsPaid from '../../Modals/Bill/MarkAsPaid';
 import { BillType } from '../../../types';
 import BillTableCell from '../BillTableCell';
+import { useBillsContext } from '../../../context/BillsContext';
 
-function BillsTable({ bills }: { bills: BillType[] }) {
+function BillsTable() {
+  const { bills } = useBillsContext();
   const [openBillForm, setOpenBillForm] = useState(false);
   const [openDeleteBill, setOpenDeleteBill] = useState(false);
   const [openMarkAsPaid, setOpenMarkAsPaid] = useState(false);
   const [currentBill, setCurrentBill] = useState<BillType | null>(null);
+
+  const sortedBills = bills.sort((a, b) => {
+    return a.dueDay > b.dueDay ? 1 : -1;
+  });
 
   const handleAddNewBill = () => {
     setCurrentBill(null);
@@ -65,7 +71,7 @@ function BillsTable({ bills }: { bills: BillType[] }) {
     <Grid size={{ md: 12, lg: 8 }} sx={{ mt: 4 }}>
       <Stack direction="row">
         <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-          All monthly bills
+          This month
         </Typography>
       </Stack>
       <TableContainer component={Paper}>
@@ -81,7 +87,7 @@ function BillsTable({ bills }: { bills: BillType[] }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {bills.map((bill: BillType) => (
+            {sortedBills.map((bill: BillType) => (
               <BillTableCell
                 bill={bill}
                 key={bill.id}
@@ -93,7 +99,11 @@ function BillsTable({ bills }: { bills: BillType[] }) {
           </TableBody>
         </Table>
       </TableContainer>
-      <Button variant="contained" sx={{ mt: 2 }} onClick={handleAddNewBill}>
+      <Button
+        variant="contained"
+        sx={{ mt: 2 }}
+        onClick={handleAddNewBill}
+        data-testid="add-new-button">
         Add new
       </Button>
       <BillForm

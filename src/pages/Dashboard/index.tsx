@@ -2,12 +2,10 @@ import Grid from '@mui/material/Grid2';
 import { Box, CircularProgress, Stack, Typography } from '@mui/material';
 import BillsReport from '../../components/Bills/BillsReport';
 import BillsTable from '../../components/Bills/BillsTable';
-import { useBillsContext } from '../../context/BillsContext';
 import { useEffect } from 'react';
 import useAPI from '../../hooks/useAPI';
 
 function Dashboard() {
-  const { bills } = useBillsContext();
   const { listBills, error, isLoading } = useAPI();
 
   useEffect(() => {
@@ -35,8 +33,8 @@ function Dashboard() {
         </Box>
       ) : (
         <Grid container spacing={2} columns={12}>
-          <BillsReport bills={bills} />
-          <BillsTable bills={bills} />
+          <BillsReport />
+          <BillsTable />
           <Grid size={{ xs: 12, lg: 4 }} sx={{ mt: 4 }}>
             <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
               Some graph here

@@ -1,50 +1,84 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import StatCard from '.';
-import { BillType } from '../../types';
+import { Stats } from '../../types';
 import { Categories } from '../../types/common';
 
-const tomorrow: BillType[] = [
-  {
-    id: 1,
-    category: Categories.Utilities,
-    name: 'Electricity',
-    amount_due: 75.0,
-    due_day: new Date().getTime() + 1,
-    is_paid: false
-  },
-  {
-    id: 2,
-    category: Categories.Utilities,
-    name: 'Internet',
-    amount_due: 50.0,
-    due_day: new Date().getTime() + 1,
-    is_paid: false
-  }
-];
+const TODAY = new Date();
+const TOMORROW = new Date(TODAY);
+TOMORROW.setDate(TOMORROW.getDate() + 1);
 
-const today: BillType[] = [
-  {
-    id: 1,
-    category: Categories.Utilities,
-    name: 'Electricity',
-    amount_due: 75.0,
-    due_day: new Date().getTime(),
-    is_paid: false
-  },
-  {
-    id: 2,
-    category: Categories.Utilities,
-    name: 'Internet',
-    amount_due: 50.0,
-    due_day: new Date().getTime(),
-    is_paid: true
-  }
-];
+const tomorrow: Stats = {
+  paid: [
+    {
+      id: 1,
+      category: Categories.Utilities,
+      name: 'Phone',
+      amountDue: '75.0',
+      dueDay: TOMORROW.getDate(),
+      Payments: [
+        {
+          id: 1,
+          amountPaid: 75,
+          paymentDate: TODAY.toISOString(),
+          billId: 1
+        }
+      ]
+    }
+  ],
+  unpaid: [
+    {
+      id: 2,
+      category: Categories.Utilities,
+      name: 'Electricity',
+      amountDue: '75.0',
+      dueDay: TOMORROW.getDate(),
+      Payments: []
+    },
+    {
+      id: 3,
+      category: Categories.Utilities,
+      name: 'Internet',
+      amountDue: '50.0',
+      dueDay: TOMORROW.getDate(),
+      Payments: []
+    }
+  ]
+};
+
+const today: Stats = {
+  paid: [
+    {
+      id: 1,
+      category: Categories.Utilities,
+      name: 'Phone',
+      amountDue: '50.0',
+      dueDay: TODAY.getDate(),
+      Payments: [
+        {
+          id: 1,
+          amountPaid: 50,
+          paymentDate: TODAY.toISOString(),
+          billId: 1
+        }
+      ]
+    }
+  ],
+  unpaid: [
+    {
+      id: 1,
+      category: Categories.Utilities,
+      name: 'Electricity',
+      amountDue: '75.0',
+      dueDay: TODAY.getDate(),
+      Payments: []
+    }
+  ]
+};
 
 describe('<StatCard />', () => {
   it('Should display the right heading', () => {
-    render(<StatCard title="Today" data={[]} />);
+    render(<StatCard title="Today" data={today} />);
     expect(
       screen.getByRole('heading', {
         name: 'Today'
@@ -53,7 +87,7 @@ describe('<StatCard />', () => {
   });
 
   it('Should display 0 unpaid and paid bills', () => {
-    render(<StatCard title="Today" data={[]} />);
+    render(<StatCard title="Today" data={{ paid: [], unpaid: [] }} />);
     const unpaidBills = screen.getByTestId('unpaid-bills');
     expect(unpaidBills).toHaveTextContent('0 Unpaid');
     const amountUnpaid = screen.getByTestId('amount-unpaid');
@@ -88,8 +122,8 @@ describe('<StatCard />', () => {
     expect(amountUnpaid).toHaveTextContent('$ 125.00');
 
     const paidBills = screen.getByTestId('paid-bills');
-    expect(paidBills).toHaveTextContent('0 Paid');
+    expect(paidBills).toHaveTextContent('1 Paid');
     const amountPaid = screen.getByTestId('amount-paid');
-    expect(amountPaid).toHaveTextContent('$ 0.00');
+    expect(amountPaid).toHaveTextContent('$ 75.00');
   });
 });

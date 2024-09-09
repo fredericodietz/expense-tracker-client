@@ -13,6 +13,7 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 import EventIcon from '@mui/icons-material/Event';
 import { BillType } from '../../../types';
+import { isPaid } from '../../../utils/payment';
 
 function BillTableCell({
   bill,
@@ -26,6 +27,8 @@ function BillTableCell({
   handleDelete: (bill: BillType) => void;
 }) {
   const TODAY = new Date().getDate();
+  // TODO: use a calendar picker to get month and change this view dynamically
+  const billPaidThisMonth = isPaid(bill.Payments);
 
   const handleMarkAsPaidClick = () => {
     handleMarkAsPaid(bill);
@@ -44,17 +47,17 @@ function BillTableCell({
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       data-testid="bill-tablecell">
       <TableCell data-testid="bill-name">{bill.name}</TableCell>
-      <TableCell align="center">{bill.due_day}</TableCell>
+      <TableCell align="center">{bill.dueDay}</TableCell>
       <TableCell align="center">
-        {bill.amount_due ? `$ ${bill.amount_due}` : '-'}
+        {bill.amountDue ? `$ ${bill.amountDue}` : '-'}
       </TableCell>
       <TableCell align="center">{bill.category}</TableCell>
       <TableCell align="center">
-        {bill.is_paid ? (
+        {billPaidThisMonth ? (
           <Tooltip title="Paid" data-testid="status-paid">
             <EventAvailableIcon color="success" />
           </Tooltip>
-        ) : bill.due_day > TODAY ? (
+        ) : bill.dueDay > TODAY ? (
           <Tooltip title="Not paid yet" data-testid="status-unpaid">
             <EventIcon color="warning" />
           </Tooltip>
@@ -66,8 +69,8 @@ function BillTableCell({
       </TableCell>
       <TableCell align="right">
         <Stack direction="row" justifyContent="end" gap={1}>
-          <Tooltip title={bill.is_paid ? 'Paid' : 'Mark as paid'}>
-            {bill.is_paid ? (
+          <Tooltip title={billPaidThisMonth ? 'Paid' : 'Mark as paid'}>
+            {billPaidThisMonth ? (
               <Box
                 sx={{
                   width: '2.5rem',

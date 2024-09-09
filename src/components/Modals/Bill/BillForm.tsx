@@ -32,8 +32,8 @@ function BillForm({
   const billTemplate: Omit<BillType, 'id'> = {
     category: Categories.Utilities,
     name: '',
-    amount_due: '0.00',
-    due_day: 1,
+    amountDue: '0.00',
+    dueDay: 1,
     is_paid: false
   };
 
@@ -70,7 +70,7 @@ function BillForm({
     const value = values.value;
     setFormBillData({
       ...billFormData,
-      amount_due: value
+      amountDue: value
     });
   };
 
@@ -105,12 +105,12 @@ function BillForm({
               <TextField
                 required
                 margin="dense"
-                id="due_day"
-                name="due_day"
+                id="dueDay"
+                name="dueDay"
                 label="Due Day"
                 type="number"
                 onChange={handleInputChange}
-                value={billFormData.due_day}
+                value={billFormData.dueDay}
                 InputProps={{ inputProps: { min: 1, max: 31 } }}
                 fullWidth
               />
@@ -142,7 +142,7 @@ function BillForm({
                 name="amount"
                 label="Amount"
                 type="text"
-                value={billFormData.amount_due || 0}
+                value={billFormData.amountDue || 0}
                 slotProps={{
                   input: {
                     startAdornment: (

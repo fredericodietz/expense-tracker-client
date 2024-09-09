@@ -1,5 +1,5 @@
 import { describe, expect, it, test, vi } from 'vitest';
-import { isThisWeek, isTomorrow, daysInMonth } from './date';
+import { isDayInCurrentWeek, isTomorrow, daysInMonth } from './date';
 
 describe('Check if a given day falls this week', () => {
   describe('Week starts and ends within the same month', () => {
@@ -7,17 +7,17 @@ describe('Check if a given day falls this week', () => {
       // August, 7th => week starts 4th and ends 10th
       const mockDate = new Date(2024, 7, 7);
       vi.setSystemTime(mockDate);
-      expect(isThisWeek(5)).toBe(true);
-      expect(isThisWeek(4)).toBe(true);
-      expect(isThisWeek(10)).toBe(true);
+      expect(isDayInCurrentWeek(5)).toBe(true);
+      expect(isDayInCurrentWeek(4)).toBe(true);
+      expect(isDayInCurrentWeek(10)).toBe(true);
     });
     it('Returns false if it not this week', () => {
       // August, 7th => week starts 4th and ends 10th
       const mockDate = new Date(2024, 7, 7);
       vi.setSystemTime(mockDate);
-      expect(isThisWeek(11)).toBe(false);
-      expect(isThisWeek(1)).toBe(false);
-      expect(isThisWeek(31)).toBe(false);
+      expect(isDayInCurrentWeek(11)).toBe(false);
+      expect(isDayInCurrentWeek(1)).toBe(false);
+      expect(isDayInCurrentWeek(31)).toBe(false);
     });
   });
 
@@ -26,16 +26,16 @@ describe('Check if a given day falls this week', () => {
       // August, 1st => week starts 28th of July and ends 3rd of August
       const mockDate = new Date(2024, 7, 1);
       vi.setSystemTime(mockDate);
-      expect(isThisWeek(31)).toBe(true);
-      expect(isThisWeek(28)).toBe(true);
-      expect(isThisWeek(3)).toBe(true);
+      expect(isDayInCurrentWeek(31)).toBe(true);
+      expect(isDayInCurrentWeek(28)).toBe(true);
+      expect(isDayInCurrentWeek(3)).toBe(true);
     });
     it('Returns false if it not this week', () => {
       // August, 1st => week starts 28th of July and ends 3rd of August
       const mockDate = new Date(2024, 7, 1);
       vi.setSystemTime(mockDate);
-      expect(isThisWeek(27)).toBe(false);
-      expect(isThisWeek(4)).toBe(false);
+      expect(isDayInCurrentWeek(27)).toBe(false);
+      expect(isDayInCurrentWeek(4)).toBe(false);
     });
   });
 });
