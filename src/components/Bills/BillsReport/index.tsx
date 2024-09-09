@@ -10,7 +10,7 @@ function BillsReport() {
   return (
     <>
       <Grid size={{ xs: 12 }}>
-        <Typography component="h2" variant="h6" sx={{ mb: 1 }}>
+        <Typography component="h2" variant="h5" sx={{ mb: 1 }}>
           Overview
         </Typography>
       </Grid>
@@ -23,7 +23,7 @@ function BillsReport() {
       <Grid size={{ sm: 6, md: 3 }}>
         <StatCard title="Tomorrow" data={tomorrow} />
       </Grid>
-      <Grid size={{ sm: 12, md: 3 }}>
+      <Grid size={{ sm: 6, md: 3 }}>
         <StatCard title="This Week" data={week} />
       </Grid>
     </>

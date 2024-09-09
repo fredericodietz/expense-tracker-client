@@ -103,7 +103,7 @@ export const BillsProvider: React.FC<{ children: ReactNode }> = ({
     setBills((prev) => {
       const billsList = [...prev];
       const paidBillIndex = billsList.findIndex((b) => b.id === id);
-      if (paidBillIndex) {
+      if (paidBillIndex >= 0) {
         billsList[paidBillIndex].Payments.push(payment);
       }
       setupStats(billsList);
@@ -115,7 +115,7 @@ export const BillsProvider: React.FC<{ children: ReactNode }> = ({
     setBills((prev) => {
       const billsList = [...prev];
       const oldBillIndex = billsList.findIndex((b) => b.id === updatedBill.id);
-      if (oldBillIndex) {
+      if (oldBillIndex >= 0) {
         billsList[oldBillIndex] = updatedBill;
       }
       setupStats(billsList);

@@ -93,13 +93,17 @@ function BillTableCell({
             )}
           </Tooltip>
           <Tooltip title="Edit">
-            <IconButton aria-label="edit" onClick={handleEditClick}>
+            <IconButton
+              aria-label="edit"
+              data-testid="edit-button"
+              onClick={handleEditClick}>
               <EditIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete">
             <IconButton
               aria-label="delete"
+              data-testid="delete-button"
               color="error"
               onClick={handleDeleteClick}>
               <DeleteIcon />

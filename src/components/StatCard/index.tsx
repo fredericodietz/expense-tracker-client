@@ -30,13 +30,13 @@ function StatCard({
                 <Typography
                   variant="h6"
                   component="p"
-                  data-testid="unpaid-bills">
+                  data-testid={`${title.toLowerCase().replace(' ', '-')}-unpaid-bills`}>
                   {unpaid.length} Unpaid
                 </Typography>
                 <Chip
                   size="small"
                   color="error"
-                  data-testid="amount-unpaid"
+                  data-testid={`${title.toLowerCase().replace(' ', '-')}-amount-unpaid`}
                   label={`$ ${getTotalAmount(unpaid).toFixed(2)}`}
                 />
               </Stack>
@@ -50,13 +50,13 @@ function StatCard({
                   <Typography
                     variant="h6"
                     component="p"
-                    data-testid="paid-bills">
+                    data-testid={`${title.toLowerCase().replace(' ', '-')}-paid-bills`}>
                     {paid.length} Paid
                   </Typography>
                   <Chip
                     size="small"
                     color="success"
-                    data-testid="amount-paid"
+                    data-testid={`${title.toLowerCase().replace(' ', '-')}-amount-paid`}
                     label={`$ ${getTotalAmount(paid).toFixed(2)}`}
                   />
                 </Stack>

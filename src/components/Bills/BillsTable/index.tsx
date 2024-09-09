@@ -70,35 +70,41 @@ function BillsTable() {
   return (
     <Grid size={{ md: 12, lg: 8 }} sx={{ mt: 4 }}>
       <Stack direction="row">
-        <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
+        <Typography component="h2" variant="h5" sx={{ mb: 2 }}>
           This month
         </Typography>
       </Stack>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Bill</TableCell>
-              <TableCell align="center">Due Day</TableCell>
-              <TableCell align="center">Amount</TableCell>
-              <TableCell align="center">Category</TableCell>
-              <TableCell align="center">Status</TableCell>
-              <TableCell align="right">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedBills.map((bill: BillType) => (
-              <BillTableCell
-                bill={bill}
-                key={bill.id}
-                handleMarkAsPaid={handleClickOpenMarkAsPaid}
-                handleEdit={handleClickOpenBillForm}
-                handleDelete={handleClickOpenDeleteBill}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {sortedBills.length > 0 ? (
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Bill</TableCell>
+                <TableCell align="center">Due Day</TableCell>
+                <TableCell align="center">Amount</TableCell>
+                <TableCell align="center">Category</TableCell>
+                <TableCell align="center">Status</TableCell>
+                <TableCell align="right">Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {sortedBills.map((bill: BillType) => (
+                <BillTableCell
+                  bill={bill}
+                  key={bill.id}
+                  handleMarkAsPaid={handleClickOpenMarkAsPaid}
+                  handleEdit={handleClickOpenBillForm}
+                  handleDelete={handleClickOpenDeleteBill}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Typography variant="h6">
+          You don't have any bills yet, create the first one
+        </Typography>
+      )}
       <Button
         variant="contained"
         sx={{ mt: 2 }}

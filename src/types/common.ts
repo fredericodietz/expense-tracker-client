@@ -3,7 +3,7 @@ export enum Categories {
   Education = 'Education',
   Insurance = 'Insurance',
   Transport = 'Transport',
-  House = 'House',
+  Housing = 'Housing',
   Shopping = 'Shopping',
   Leisure = 'Leisure',
   Communication = 'Communication'

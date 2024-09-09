@@ -88,42 +88,42 @@ describe('<StatCard />', () => {
 
   it('Should display 0 unpaid and paid bills', () => {
     render(<StatCard title="Today" data={{ paid: [], unpaid: [] }} />);
-    const unpaidBills = screen.getByTestId('unpaid-bills');
+    const unpaidBills = screen.getByTestId('today-unpaid-bills');
     expect(unpaidBills).toHaveTextContent('0 Unpaid');
-    const amountUnpaid = screen.getByTestId('amount-unpaid');
+    const amountUnpaid = screen.getByTestId('today-amount-unpaid');
     expect(amountUnpaid).toHaveTextContent('$ 0.00');
 
-    const paidBills = screen.getByTestId('paid-bills');
+    const paidBills = screen.getByTestId('today-paid-bills');
     expect(paidBills).toHaveTextContent('0 Paid');
-    const amountPaid = screen.getByTestId('amount-paid');
+    const amountPaid = screen.getByTestId('today-amount-paid');
     expect(amountPaid).toHaveTextContent('$ 0.00');
   });
 
   it("Should display today's unpaid and paid bills", () => {
     render(<StatCard title="Today" data={today} />);
 
-    const unpaidBills = screen.getByTestId('unpaid-bills');
+    const unpaidBills = screen.getByTestId('today-unpaid-bills');
     expect(unpaidBills).toHaveTextContent('1 Unpaid');
-    const amountUnpaid = screen.getByTestId('amount-unpaid');
+    const amountUnpaid = screen.getByTestId('today-amount-unpaid');
     expect(amountUnpaid).toHaveTextContent('$ 75.00');
 
-    const paidBills = screen.getByTestId('paid-bills');
+    const paidBills = screen.getByTestId('today-paid-bills');
     expect(paidBills).toHaveTextContent('1 Paid');
-    const amountPaid = screen.getByTestId('amount-paid');
+    const amountPaid = screen.getByTestId('today-amount-paid');
     expect(amountPaid).toHaveTextContent('$ 50.00');
   });
 
   it("Should display tomorrow's unpaid and paid bills", () => {
     render(<StatCard title="Tomorrow" data={tomorrow} />);
 
-    const unpaidBills = screen.getByTestId('unpaid-bills');
+    const unpaidBills = screen.getByTestId('tomorrow-unpaid-bills');
     expect(unpaidBills).toHaveTextContent('2 Unpaid');
-    const amountUnpaid = screen.getByTestId('amount-unpaid');
+    const amountUnpaid = screen.getByTestId('tomorrow-amount-unpaid');
     expect(amountUnpaid).toHaveTextContent('$ 125.00');
 
-    const paidBills = screen.getByTestId('paid-bills');
+    const paidBills = screen.getByTestId('tomorrow-paid-bills');
     expect(paidBills).toHaveTextContent('1 Paid');
-    const amountPaid = screen.getByTestId('amount-paid');
+    const amountPaid = screen.getByTestId('tomorrow-amount-paid');
     expect(amountPaid).toHaveTextContent('$ 75.00');
   });
 });

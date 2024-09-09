@@ -29,16 +29,15 @@ function BillForm({
 }) {
   const { createBill, handleUpdateBill } = useAPI();
 
-  const billTemplate: Omit<BillType, 'id'> = {
+  const billTemplate: Omit<BillType, 'id' | 'Payments'> = {
     category: Categories.Utilities,
     name: '',
     amountDue: '0.00',
-    dueDay: 1,
-    is_paid: false
+    dueDay: 1
   };
 
   const [billFormData, setFormBillData] = useState<
-    BillType | Omit<BillType, 'id'>
+    BillType | Omit<BillType, 'id' | 'Payments'>
   >(billTemplate);
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -161,7 +160,7 @@ function BillForm({
             Cancel
           </Button>
           <Button type="submit" variant="contained">
-            Add
+            {bill ? 'Save' : 'Add new'}
           </Button>
         </DialogActions>
       </form>
