@@ -39,30 +39,23 @@ This app simplifies managing your recurring expenses, ensuring you’re always o
 
 ## Running the App Locally
 
-This app consists of two main components: the **client** and the **server**. Follow the steps below to set it up and run it on your local machine.
+This app consists of two main components: the **client** and the **server**. The backend is included as a Git submodule, so there's no need to clone it separately. Follow these steps to set it up and run it on your local machine.
 
-### 1. Backend Server
+### 1. Initialize Git Submodule
 
-1. Clone the server repository:
+1. After cloning the main repository, initialize the backend submodule:
+
    ```bash
-   git clone https://github.com/fredericodietz/expense-tracker-server
-   ```
-2. Navigate into the server directory:
-   ```bash
-   cd expense-tracker-server
-   ```
-3. Start the server and the database using Docker:
-   ```bash
-   docker compose up app db
+   git submodule update --init --recursive
    ```
 
-#### Seed Data (Optional)
+2. Navigate to the server directory and start the server with Docker:
+   ```bash
+   cd server
+   docker compose up
+   ```
 
-If you want to populate the database with some sample data, run the following command:
-
-```bash
-docker compose up seed
-```
+You can check the server repository here [https://github.com/fredericodietz/expense-tracker-server](https://github.com/fredericodietz/expense-tracker-server)
 
 ---
 
