@@ -159,3 +159,41 @@ By running **ESLint** with the `--cache --fix` option and only related tests wit
 ---
 
 This configuration ensures that every commit meets linting and testing requirements, maintaining code quality and minimizing the chances of introducing bugs.
+
+Here’s the revised **TODO** section, made tool-agnostic as requested:
+
+---
+
+## Next steps (not in order)
+
+### 1. **Authentication**
+
+- Implement user authentication and authorization.
+
+### 2. **GitHub Actions**
+
+- Set up automated workflows using **GitHub Actions** for continuous integration (CI).
+- Automate running linting, testing, and build processes on every push or pull request.
+- Ensure actions trigger deployment processes for a streamlined production pipeline.
+
+### 3. **Deployment**
+
+- Prepare the app for deployment in production environments.
+- Configure environment-specific settings for backend services and security.
+- Use **Docker** for containerization to simplify deployment across different platforms and environments.
+
+### 4. **Send Emails**
+
+- Implement functionality to send reminders for due bills.
+- Ensure reliable delivery of weekly, due day, and late payment alerts via email notifications.
+
+### 5. **Visual Regression Testing**
+
+- Introduce visual regression testing to safeguard the UI against unintended changes.
+- Capture and compare visual snapshots to detect any variations in appearance across different states or updates.
+
+### 6. **UI Improvements**
+
+- Enhance the UI for better user experience and usability.
+- Focus on accessibility improvements, including keyboard navigation, color contrast, and screen reader support.
+- Improve mobile responsiveness and performance across various device sizes.
