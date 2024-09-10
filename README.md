@@ -122,3 +122,40 @@ npx playwright test --ui
 ```
 
 This opens an interactive interface where you can visualize the execution of tests, inspect the app's behavior, and debug any issues.
+
+---
+
+## Pre-Commit Quality Control
+
+The project uses **Husky** and **lint-staged** to enforce pre-commit checks, ensuring that only well-tested and properly linted code is committed, maintaining high-quality standards throughout the development process.
+
+### Husky & lint-staged Setup
+
+**Husky** triggers Git hooks, and in combination with **lint-staged**, it ensures that only files affected by changes are linted and tested before committing. This prevents bad commits if the code does not meet the required quality standards.
+
+Before committing, **Husky** runs the following tasks:
+
+1. **Linting the Code**: The modified files are checked to meet the project’s coding standards using **ESLint** with caching and auto-fixing enabled:
+
+   ```bash
+   eslint --cache --fix
+   ```
+
+2. **Running Unit & Component Tests**: Executes tests relevant to the staged changes, ensuring no breaking changes are introduced. This is done using:
+
+   ```bash
+   npm test -- related --run
+   ```
+
+   If any tests fail or linting errors occur, the commit is blocked until the issues are resolved.
+
+### How it Works:
+
+- When you attempt to commit, **lint-staged** focuses only on the files you’re staging and runs the linting and testing processes on them.
+- If both linting and testing pass, the commit proceeds. Otherwise, you’ll receive feedback on the errors to fix before trying again.
+
+By running **ESLint** with the `--cache --fix` option and only related tests with `npm test -- related --run`, this setup ensures faster, more efficient pre-commit checks while enforcing best practices across the codebase.
+
+---
+
+This configuration ensures that every commit meets linting and testing requirements, maintaining code quality and minimizing the chances of introducing bugs.
