@@ -26,16 +26,16 @@ This app simplifies managing your recurring expenses, ensuring you’re always o
 
 ## Tech Stack
 
-- **Vite** – Fast development environment for the frontend.
-- **React** – JavaScript library for building user interfaces.
-- **TypeScript** – Strongly typed programming language.
-- **MUI** – Material UI for styling React components.
-- **Vitest** – Unit testing framework.
-- **Playwright** – End-to-end testing framework.
-- **ESLint** – Linting tool for maintaining code quality.
-- **Prettier** – Code formatting tool.
-- **Husky**: Git hooks to ensure all tests pass and only well-linted code is committed.
-- **EditorConfig**: Maintains consistent coding styles across different editors and IDEs.
+- **Vite** – High-performance build tool and development server, enabling fast hot-module replacement for an optimized development experience.
+- **React** – Component-based JavaScript library for building dynamic user interfaces with declarative state management.
+- **TypeScript** – Statically-typed JavaScript that enhances code quality, reduces runtime errors, and improves developer productivity with better tooling.
+- **MUI (Material UI)** – A comprehensive React component library providing pre-built, customizable components that adhere to Material Design principles, ensuring consistent and accessible UI.
+- **Vitest** – A fast unit testing framework tailored for Vite that integrates seamlessly with modern frontend workflows.
+- **Playwright** – Powerful, cross-browser end-to-end testing framework that automates modern web testing with rich debugging features and parallel test execution.
+- **ESLint** – Linting tool for identifying problematic patterns in your code, enforcing coding standards, and maintaining a clean codebase.
+- **Prettier** – Opinionated code formatter that ensures consistent code style across the project, removing debates over code style issues.
+- **Husky** – Git hooks that prevent commits unless all tests pass and linting issues are resolved, maintaining high-quality code throughout the repository.
+- **EditorConfig** – Defines consistent coding styles across various IDEs and editors, ensuring collaboration with uniform conventions.
 
 ## Running the App Locally
 
@@ -83,35 +83,42 @@ You can check the server repository here [https://github.com/fredericodietz/expe
 
 ---
 
-### Testing
+## Testing:
 
-You can perform several testing-related tasks as follows:
+The project follows a comprehensive testing approach, covering unit, integration, and end-to-end testing to ensure robust functionality.
 
-- **Run unit tests**:
+### Unit and Component Testing
 
-  ```bash
-  npm run test
-  ```
+Unit and component tests are powered by **Vitest**, allowing for fast, isolated testing of both individual logic functions and React components. This ensures that each part of the application behaves correctly in isolation. To run the unit and component tests, use:
 
-- **Lint the code** to ensure it adheres to style guidelines:
+```bash
+npm run test
+```
 
-  ```bash
-  npm run lint
-  ```
+To generate code coverage reports for unit tests:
 
-- **Check code coverage** from tests:
-  ```bash
-  npm run coverage
-  ```
+```bash
+npm run coverage
+```
+
+This will provide a detailed breakdown of test coverage, ensuring all critical paths are thoroughly tested.
+
+### Linting
+
+The project enforces strict linting rules with **ESLint**. To verify code quality and ensure adherence to best practices, run:
+
+```bash
+npm run lint
+```
+
+This will highlight any potential errors or inconsistencies in the codebase, promoting clean and maintainable code.
 
 ### End-to-End Testing
 
-Run Playwright’s end-to-end tests with the interactive UI:
+For full-system testing, **Playwright** is used to simulate user interactions and validate the app's behavior in different browsers. To execute end-to-end tests with an interactive UI:
 
 ```bash
 npx playwright test --ui
 ```
 
----
-
-By following these instructions, you can set up the app locally, run it, and ensure everything is working with proper tests in place.
+This opens an interactive interface where you can visualize the execution of tests, inspect the app's behavior, and debug any issues.
