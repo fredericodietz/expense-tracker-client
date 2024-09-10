@@ -168,3 +168,50 @@ test('edit bill', async ({ page }) => {
     .first();
   expect(billCellUpdated).toContainText('Transport');
 });
+
+test('filter bills', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2024-09-09T10:00:00'));
+  await page.route('http://localhost:3000/bills', async (route) => {
+    await route.fulfill({ json: data });
+  });
+
+  await page.goto('/');
+
+  const billCell = await page.locator("[data-testid='bill-tablecell']").first();
+  await expect(billCell).toBeVisible();
+
+  const billsList = await page.locator("[data-testid='bill-tablecell']").all();
+  await expect(billsList).toHaveLength(7);
+
+  await page.getByLabel('Filter').click();
+  await page.getByRole('option', { name: 'Paid', exact: true }).click();
+
+  const paidBillsList = await page
+    .locator("[data-testid='bill-tablecell']")
+    .all();
+  await expect(paidBillsList).toHaveLength(1);
+
+  await page.getByLabel('Filter').first().click();
+  await page.getByRole('option', { name: 'Unpaid', exact: true }).click();
+
+  const unpaidBillsList = await page
+    .locator("[data-testid='bill-tablecell']")
+    .all();
+  await expect(unpaidBillsList).toHaveLength(6);
+
+  await page.getByLabel('Filter').first().click();
+  await page.getByRole('option', { name: 'Late', exact: true }).click();
+
+  const lateBillsList = await page
+    .locator("[data-testid='bill-tablecell']")
+    .all();
+  await expect(lateBillsList).toHaveLength(2);
+
+  await page.getByLabel('Filter').first().click();
+  await page.getByRole('option', { name: 'Show all', exact: true }).click();
+
+  const allBillsList = await page
+    .locator("[data-testid='bill-tablecell']")
+    .all();
+  await expect(allBillsList).toHaveLength(7);
+});

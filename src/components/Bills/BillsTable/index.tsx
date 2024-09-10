@@ -128,6 +128,7 @@ function BillsTable() {
           <FormControl size="small" sx={{ width: '200px', mb: 1 }}>
             <InputLabel id="filter-select-label">Filter</InputLabel>
             <Select
+              data-testid="filter-select"
               labelId="filter-select-label"
               id="filter"
               name="filter"
