@@ -21,17 +21,11 @@ function MarkAsPaid({
   handleClose: () => void;
   bill: BillType;
 }) {
-  const { handlePayBill, handleUpdateBill } = useAPI();
+  const { handlePayBill } = useAPI();
   const [amount, setAmount] = useState(bill.amountDue || '0');
 
   const handleMarkAsPaidClick = () => {
-    if (amount !== bill.amountDue) {
-      bill.amountDue = amount;
-      handleUpdateBill(bill);
-    } else {
-      handlePayBill(bill.id, amount);
-    }
-
+    handlePayBill(bill.id, amount);
     handleClose();
   };
 

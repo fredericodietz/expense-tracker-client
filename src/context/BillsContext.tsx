@@ -1,4 +1,10 @@
-import React, { createContext, ReactNode, useContext, useState } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState
+} from 'react';
 import { BillType, StatsReport, Stats, Payment } from '../types';
 import { paymentReport } from '../utils/payment';
 import { isDayInCurrentWeek, isTomorrow } from '../utils/date';
@@ -44,7 +50,6 @@ export const BillsProvider: React.FC<{ children: ReactNode }> = ({
 
   const initBills = (allBills: BillType[]): void => {
     setBills(allBills);
-    setupStats(allBills);
   };
 
   const setupStats = (allBills: BillType[]): void => {
@@ -79,7 +84,6 @@ export const BillsProvider: React.FC<{ children: ReactNode }> = ({
     const newBill = { ...bill, Payments: [] };
     setBills((prev) => {
       const billsList = [...prev, newBill];
-      setupStats(billsList);
       return billsList;
     });
   };
@@ -87,7 +91,6 @@ export const BillsProvider: React.FC<{ children: ReactNode }> = ({
   const deleteBill = (id: number) => {
     setBills((prev) => {
       const billsList = prev.filter((b) => b.id !== id);
-      setupStats(billsList);
       return billsList;
     });
   };
@@ -99,7 +102,6 @@ export const BillsProvider: React.FC<{ children: ReactNode }> = ({
       if (paidBillIndex >= 0) {
         billsList[paidBillIndex].Payments.push(payment);
       }
-      setupStats(billsList);
       return billsList;
     });
   };
@@ -111,10 +113,13 @@ export const BillsProvider: React.FC<{ children: ReactNode }> = ({
       if (oldBillIndex >= 0) {
         billsList[oldBillIndex] = updatedBill;
       }
-      setupStats(billsList);
       return billsList;
     });
   };
+
+  useEffect(() => {
+    setupStats(bills);
+  }, [bills]);
 
   return (
     <BillsContext.Provider
