@@ -156,11 +156,7 @@ Before committing, **Husky** runs the following tasks:
 
 By running **ESLint** with the `--cache --fix` option and only related tests with `npm test -- related --run`, this setup ensures faster, more efficient pre-commit checks while enforcing best practices across the codebase.
 
----
-
 This configuration ensures that every commit meets linting and testing requirements, maintaining code quality and minimizing the chances of introducing bugs.
-
-Here’s the revised **TODO** section, made tool-agnostic as requested:
 
 ---
 
