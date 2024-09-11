@@ -160,6 +160,15 @@ This configuration ensures that every commit meets linting and testing requireme
 
 ---
 
+## Securing Dependencies
+
+### **Socket.dev**
+
+- **[Socket.dev](https://socket.dev/)** is integrated to monitor dependencies for potential supply chain risks, detecting vulnerabilities and preventing malicious code from being introduced via third-party libraries.
+- It provides additional security by alerting on suspicious or unsafe packages, ensuring that only trusted dependencies are used.
+
+---
+
 ## Next steps (not in order)
 
 ### 1. **Authentication**
