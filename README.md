@@ -202,3 +202,8 @@ This configuration ensures that every commit meets linting and testing requireme
 - Enhance the UI for better user experience and usability.
 - Focus on accessibility improvements, including keyboard navigation, color contrast, and screen reader support.
 - Improve mobile responsiveness and performance across various device sizes.
+
+### 7. **Support for Recurrence Date**
+
+- Add support for managing bills with recurring dates (e.g., weekly, monthly, yearly).
+- Implement recurrence logic based on the **RFC 5545** specification to allow users to define flexible and standards-compliant recurring payment schedules.
